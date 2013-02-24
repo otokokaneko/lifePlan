@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>ライフプラン</title>
+
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/themes/redmond/jquery-ui.css" media="screen">
+<style type="text/css">
+
+.ui-button-text-only .ui-button-text {
+	padding: 0.1em 0.5em;
+}
+
+#tabs { height: 360px; }
+#tabs * { 
+	font-size: 12px; 
+}
+
+.mawarikomi {
+    float:left;
+    margin-left: 50px;
+}
+
+.btn { 
+    height: 25px;
+    font-size: 12px; 
+    margin: 5px;
+}
+
+input[type="text"] {
+	color: #2e6e9e;
+	border:solid 1px #79b7e7; 
+	background:#ffffff;
+	text-align: right;
+	width: 90px;
+	border-radius: 5px;
+	padding-right: 4px;
+}
+
+#tblPlan {
+    font-size: 9px;
+    margin: 10px;
+}
+
+.tblMain th {
+    white-space: nowrap; 
+    background-color: #79b7e7; 
+    color: #ffffff;
+}
+
+.tblMain .personInfo {
+	background-color: #9dd55d;
+}
+
+.tblMain .shishutsuInfo {
+	background-color: #eb8485;
+}
+
+.tblMain .shisanInfo {
+	background-color: #42d1d7;
+}
+
+.tblMain tr:nth-child(odd) { 
+    background-color: #d0e5f5;
+}
+.tblMain tr:nth-child(even) { 
+    background-color: #E8E8E8;
+}
+.tblMain td {
+    text-align: right;
+    color: #2e6e9e;
+}
+#dataRow_0 {
+    display: none;
+}
+.hideDetail {
+    display: none;
+}
+
+</style>
+</head>
+<body>
+<div id="tabs">
+  <ul>
+    <li><a href="#setainushi_info">世帯主</a></li>
+    <li><a href="#haigusha_info">配偶者</a></li>
+    <li><a href="#child_1_info">子ども１</a></li>
+    <li><a href="#child_2_info">子ども２</a></li>
+    <li><a href="#child_3_info">子ども３</a></li>
+    <li><a href="#setai_info">世帯情報</a></li>
+    <li><a href="#zyutaku_info">住宅関連</a></li>
+    <li><a href="#kuruma_info">車</a></li>
+    <li><a href="#sonota_info">その他</a></li>
+  </ul>
+
+  <div id="setainushi_info">
+    <table>
+      <tr>
+        <td>年齢</td>
+        <td><select id="setainushi_age"></select></td>
+      </tr>
+      <tr>
+        <td>年収</td>
+        <td><input id="setainushi_income" type="text" value="6000000">
+      </tr>
+      <tr>
+        <td>年収上昇</td>
+        <td><input id="setainushi_income_up" type="text" value="0">
+        <input id="setainushi_up_type_0" name="radio_setainushi_up_type" value="0" type="radio" checked><label for="setainushi_up_type_0">率</label>
+        <input id="setainushi_up_type_1" name="radio_setainushi_up_type" value="1" type="radio"><label for="setainushi_up_type_1">額</label>
+      </tr>
+      <tr>
+        <td>企業年金(月額)</td>
+        <td><input id="setainushi_kigyou_nenkin" type="text" value="0">※定年時に全額受け取り
+      </tr>
+      <tr>
+        <td>現在企業年金積立額</td>
+        <td><input id="setainushi_kigyou_tsumitate" type="text" value="0">
+      </tr>
+      <tr>
+        <td>企業年金利回り</td>
+        <td><input id="setainushi_kigyou_rimawari" type="text" value="0">％
+      </tr>
+      <tr>
+        <td>リタイア年齢</td>
+        <td><select id="setainushi_retire_age"></select></td>
+      </tr>
+      <tr>
+        <td>雇用延長年齢</td>
+        <td><select id="setainushi_koyou_enchou_age"></select></td>
+      </tr>
+      <tr>
+        <td>雇用延長年収</td>
+        <td><input id="setainushi_koyou_enchou_income" type="text" value="2000000">
+      </tr>
+      <tr>
+        <td>月額年金受取額</td>
+        <td><input id="setainushi_nenkin" type="text" value="190000">
+      </tr>
+      <tr>
+        <td>年金受け取り年齢</td>
+        <td><select id="setainushi_nenkin_age"></select></td>
+      </tr>
+    </table>
+  </div>
+  
+  <div id="haigusha_info">
+    <table>
+      <tr>
+        <td>年齢</td>
+        <td><select id="haigusha_age"></select></td>
+      </tr>
+      <tr>
+        <td>年収</td>
+        <td><input id="haigusha_income" type="text" value="3800000">
+      </tr>
+      <tr>
+        <td>年収上昇</td>
+        <td><input id="haigusha_income_up" type="text" value="0">
+        <input id="haigusha_up_type_0" name="radio_haigusha_up_type" value="0" type="radio" checked><label for="haigusha_up_type_0">率</label>
+        <input id="haigusha_up_type_1" name="radio_haigusha_up_type" value="1" type="radio"><label for="haigusha_up_type_1">額</label>
+      </tr>
+      <tr>
+        <td>企業年金(月額)</td>
+        <td><input id="haigusha_kigyou_nenkin" type="text" value="0">※定年時に全額受け取り
+      </tr>
+      <tr>
+        <td>現在企業年金積立額</td>
+        <td><input id="haigusha_kigyou_tsumitate" type="text" value="0">
+      </tr>
+      <tr>
+        <td>企業年金利回り</td>
+        <td><input id="haigusha_kigyou_rimawari" type="text" value="0">％
+      </tr>
+      <tr>
+        <td>リタイア年齢</td>
+        <td><select id="haigusha_retire_age"></select></td>
+      </tr>
+      <tr>
+        <td>雇用延長年齢</td>
+        <td><select id="haigusha_koyou_enchou_age"></select></td>
+      </tr>
+      <tr>
+        <td>雇用延長年収</td>
+        <td><input id="haigusha_koyou_enchou_income" type="text" value="0">
+      </tr>
+      <tr>
+        <td>月額年金受け取り額</td>
+        <td><input id="haigusha_nenkin" type="text" value="100000">
+      </tr>
+      <tr>
+        <td>年金受け取り年齢</td>
+        <td><select id="haigusha_nenkin_age"></select></td>
+      </tr>
+    </table>
+  </div>
+  
+  <div id="child_1_info">
+    <table>
+      <tr>
+        <td>第1子</td>
+        <td><input id="child_1_check" type="checkbox" checked></td>
+      </tr>
+      <tr>
+        <td>年齢</td>
+        <td><select id="child_1_age"></select></td>
+      </tr>
+      <tr>
+        <td>幼稚園</td>
+        <td>
+        <input id="child_1_youchien_1" name="radio_child_1_youchien" value="1" type="radio" checked><label for="child_1_youchien_1">公立</label>
+        <input id="child_1_youchien_2" name="radio_child_1_youchien" value="2" type="radio"><label for="child_1_youchien_2">私立</label>
+        <input id="child_1_youchien_0" name="radio_child_1_youchien" value="0" type="radio"><label for="child_1_youchien_0">行かない</label>
+        </td>
+      </tr>
+      <tr>
+        <td>小学校</td>
+        <td>
+        <input id="child_1_shougakkou_1" name="radio_child_1_shougakkou" value="1" type="radio" checked><label for="child_1_shougakkou_1">公立</label>
+        <input id="child_1_shougakkou_2" name="radio_child_1_shougakkou" value="2" type="radio"><label for="child_1_shougakkou_2">私立</label>
+        </td>
+      </tr>
+      <tr>
+        <td>中学校</td>
+        <td>
+        <input id="child_1_chuugakkou_1" name="radio_child_1_chuugakkou" value="1" type="radio" checked><label for="child_1_chuugakkou_1">公立</label>
+        <input id="child_1_chuugakkou_2" name="radio_child_1_chuugakkou" value="2" type="radio"><label for="child_1_chuugakkou_2">私立</label>
+        </td>
+      </tr>
+      <tr>
+        <td>高校</td>
+        <td>
+        <input id="child_1_koukou_1" name="radio_child_1_koukou" value="1" type="radio" checked><label for="child_1_koukou_1">公立</label>
+        <input id="child_1_koukou_2" name="radio_child_1_koukou" value="2" type="radio"><label for="child_1_koukou_2">私立</label>
+        <input id="child_1_koukou_0" name="radio_child_1_koukou" value="0" type="radio"><label for="child_1_koukou_0">行かない</label>
+        </td>
+      </tr>
+      <tr>
+        <td>大学</td>
+        <td>
+        <input id="child_1_daigaku_1" name="radio_child_1_daigaku" value="1" type="radio" checked><label for="child_1_daigaku_1">国立</label>
+        <input id="child_1_daigaku_2" name="radio_child_1_daigaku" value="2" type="radio"><label for="child_1_daigaku_2">私立文系</label>
+        <input id="child_1_daigaku_3" name="radio_child_1_daigaku" value="3" type="radio"><label for="child_1_daigaku_3">私立理系</label>
+        <input id="child_1_daigaku_4" name="radio_child_1_daigaku" value="4" type="radio"><label for="child_1_daigaku_4">私立医歯系</label>
+        <input id="child_1_daigaku_5" name="radio_child_1_daigaku" value="5" type="radio"><label for="child_1_daigaku_5">私立短大</label>
+        <input id="child_1_daigaku_6" name="radio_child_1_daigaku" value="0" type="radio"><label for="child_1_daigaku_6">行かない</label>
+        </td>
+      </tr>
+      <tr>
+        <td>通学方法</td>
+        <td>
+        <input id="child_1_tsugaku_0" name="radio_child_1_tsugaku" value="0" type="radio" checked><label for="child_1_tsugaku_0">自宅</label>
+        <input id="child_1_tsugaku_1" name="radio_child_1_tsugaku" value="1" type="radio"><label for="child_1_tsugaku_1">賃貸</label>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div id="child_2_info">
+    <table>
+      <tr>
+        <td>第2子</td>
+        <td><input id="child_2_check" type="checkbox"></td>
+      </tr>
+      <tr>
+        <td>年齢</td>
+        <td><select id="child_2_age"></select></td>
+      </tr>
+      <tr>
+        <td>幼稚園</td>
+        <td>
+        <input id="child_2_youchien_1" name="radio_child_2_youchien" value="1" type="radio" checked><label for="child_2_youchien_1">公立</label>
+        <input id="child_2_youchien_2" name="radio_child_2_youchien" value="2" type="radio"><label for="child_2_youchien_2">私立</label>
+        <input id="child_2_youchien_0" name="radio_child_2_youchien" value="0" type="radio"><label for="child_2_youchien_0">行かない</label>
+        </td>
+      </tr>
+      <tr>
+        <td>小学校</td>
+        <td>
+        <input id="child_2_shougakkou_1" name="radio_child_2_shougakkou" value="1" type="radio" checked><label for="child_2_shougakkou_1">公立</label>
+        <input id="child_2_shougakkou_2" name="radio_child_2_shougakkou" value="2" type="radio"><label for="child_2_shougakkou_2">私立</label>
+        </td>
+      </tr>
+      <tr>
+        <td>中学校</td>
+        <td>
+        <input id="child_2_chuugakkou_1" name="radio_child_2_chuugakkou" value="1" type="radio" checked><label for="child_2_chuugakkou_1">公立</label>
+        <input id="child_2_chuugakkou_2" name="radio_child_2_chuugakkou" value="2" type="radio"><label for="child_2_chuugakkou_2">私立</label>
+        </td>
+      </tr>
+      <tr>
+        <td>高校</td>
+        <td>
+        <input id="child_2_koukou_1" name="radio_child_2_koukou" value="1" type="radio" checked><label for="child_2_koukou_1">公立</label>
+        <input id="child_2_koukou_2" name="radio_child_2_koukou" value="2" type="radio"><label for="child_2_koukou_2">私立</label>
+        <input id="child_2_koukou_0" name="radio_child_2_koukou" value="0" type="radio"><label for="child_2_koukou_0">行かない</label>
+        </td>
+      </tr>
+      <tr>
+        <td>大学</td>
+        <td>
+        <input id="child_2_daigaku_1" name="radio_child_2_daigaku" value="1" type="radio" checked><label for="child_2_daigaku_1">国立</label>
+        <input id="child_2_daigaku_2" name="radio_child_2_daigaku" value="2" type="radio"><label for="child_2_daigaku_2">私立文系</label>
+        <input id="child_2_daigaku_3" name="radio_child_2_daigaku" value="3" type="radio"><label for="child_2_daigaku_3">私立理系</label>
+        <input id="child_2_daigaku_4" name="radio_child_2_daigaku" value="4" type="radio"><label for="child_2_daigaku_4">私立医歯系</label>
+        <input id="child_2_daigaku_5" name="radio_child_2_daigaku" value="5" type="radio"><label for="child_2_daigaku_5">私立短大</label>
+        <input id="child_2_daigaku_6" name="radio_child_2_daigaku" value="0" type="radio"><label for="child_2_daigaku_6">行かない</label>
+        </td>
+      </tr>
+      <tr>
+        <td>通学方法</td>
+        <td>
+        <input id="child_2_tsugaku_0" name="radio_child_2_tsugaku" value="0" type="radio" checked><label for="child_2_tsugaku_0">自宅</label>
+        <input id="child_2_tsugaku_1" name="radio_child_2_tsugaku" value="1" type="radio"><label for="child_2_tsugaku_1">賃貸</label>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div id="child_3_info">
+    <table>
+      <tr>
+        <td>第3子</td>
+        <td><input id="child_3_check" type="checkbox"></td>
+      </tr>
+      <tr>
+        <td>年齢</td>
+        <td><select id="child_3_age"></select></td>
+      </tr>
+      <tr>
+        <td>幼稚園</td>
+        <td>
+        <input id="child_3_youchien_1" name="radio_child_3_youchien" value="1" type="radio" checked><label for="child_3_youchien_1">公立</label>
+        <input id="child_3_youchien_2" name="radio_child_3_youchien" value="2" type="radio"><label for="child_3_youchien_2">私立</label>
+        <input id="child_3_youchien_0" name="radio_child_3_youchien" value="0" type="radio"><label for="child_3_youchien_0">行かない</label>
+        </td>
+      </tr>
+      <tr>
+        <td>小学校</td>
+        <td>
+        <input id="child_3_shougakkou_1" name="radio_child_3_shougakkou" value="1" type="radio" checked><label for="child_3_shougakkou_1">公立</label>
+        <input id="child_3_shougakkou_2" name="radio_child_3_shougakkou" value="2" type="radio"><label for="child_3_shougakkou_2">私立</label>
+        </td>
+      </tr>
+      <tr>
+        <td>中学校</td>
+        <td>
+        <input id="child_3_chuugakkou_1" name="radio_child_3_chuugakkou" value="1" type="radio" checked><label for="child_3_chuugakkou_1">公立</label>
+        <input id="child_3_chuugakkou_2" name="radio_child_3_chuugakkou" value="2" type="radio"><label for="child_3_chuugakkou_2">私立</label>
+        </td>
+      </tr>
+      <tr>
+        <td>高校</td>
+        <td>
+        <input id="child_3_koukou_1" name="radio_child_3_koukou" value="1" type="radio" checked><label for="child_3_koukou_1">公立</label>
+        <input id="child_3_koukou_2" name="radio_child_3_koukou" value="2" type="radio"><label for="child_3_koukou_2">私立</label>
+        <input id="child_3_koukou_0" name="radio_child_3_koukou" value="0" type="radio"><label for="child_3_koukou_0">行かない</label>
+        </td>
+      </tr>
+      <tr>
+        <td>大学</td>
+        <td>
+        <input id="child_3_daigaku_1" name="radio_child_3_daigaku" value="1" type="radio" checked><label for="child_3_daigaku_1">国立</label>
+        <input id="child_3_daigaku_2" name="radio_child_3_daigaku" value="2" type="radio"><label for="child_3_daigaku_2">私立文系</label>
+        <input id="child_3_daigaku_3" name="radio_child_3_daigaku" value="3" type="radio"><label for="child_3_daigaku_3">私立理系</label>
+        <input id="child_3_daigaku_4" name="radio_child_3_daigaku" value="4" type="radio"><label for="child_3_daigaku_4">私立医歯系</label>
+        <input id="child_3_daigaku_5" name="radio_child_3_daigaku" value="5" type="radio"><label for="child_3_daigaku_5">私立短大</label>
+        <input id="child_3_daigaku_6" name="radio_child_3_daigaku" value="0" type="radio"><label for="child_3_daigaku_6">行かない</label>
+        </td>
+      </tr>
+      <tr>
+        <td>通学方法</td>
+        <td>
+        <input id="child_3_tsugaku_0" name="radio_child_3_tsugaku" value="0" type="radio" checked><label for="child_3_tsugaku_0">自宅</label>
+        <input id="child_3_tsugaku_1" name="radio_child_3_tsugaku" value="1" type="radio"><label for="child_3_tsugaku_1">賃貸</label>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div id="setai_info">
+    <table>
+      <tr>
+        <td>食費</td>
+        <td><input id="shokuhi" type="text" value="30000"></td>
+        <td>水道代</td>
+        <td><input id="suidou" type="text" value="4000"></td> 
+        <td>ガス代</td>
+        <td><input id="gasu" type="text" value="6000"></td> 
+      </tr>
+      <tr>
+        <td>電気代</td>
+        <td><input id="denki" type="text" value="6000"></td> 
+        <td>通信費</td>
+        <td><input id="tsuushin" type="text" value="4500"></td> 
+        <td>携帯料金</td>
+        <td><input id="keitai" type="text" value="15000"></td> 
+        <td>服飾費</td>
+        <td><input id="hukushoku" type="text" value="30000"></td> 
+      </tr>
+      <tr>
+        <td>レジャー</td>
+        <td><input id="rezya" type="text" value="20000"></td> 
+        <td>大人こづかい</td>
+        <td><input id="kozukai" type="text" value="20000"></td> 
+      </tr>
+      <tr>
+        <td>現在の貯金</td>
+        <td><input id="chokin" type="text" value="10000000"></td> 
+      </tr>
+    </table>
+  </div>
+  
+  <div id="zyutaku_info">
+    <div class="mawarikomi">
+      賃貸
+      <table>
+        <tr>
+          <td></td><td>家賃</td><td>引っ越しその他費用</td><td>居住期間</td>
+        </tr>
+        <tr>
+          <td><input id="yachin_check_1" type="checkbox" checked>1</td>
+          <td><input id="yachin_1" type="text" value="100000"></td>
+          <td><input id="yachin_sonota_1" type="text" value="0"></td>
+          <td><select id="yachin_start_1"></select>〜<select id="yachin_end_1"></select></td>
+        </tr>
+        <tr>
+          <td><input id="yachin_check_2" type="checkbox">2</td>
+          <td><input id="yachin_2" type="text" value="100000"></td>
+          <td><input id="yachin_sonota_2" type="text" value="500000"></td>
+          <td><select id="yachin_start_2"></select>〜<select id="yachin_end_2"></select></td>
+        </tr>
+        <tr>
+          <td><input id="yachin_check_3" type="checkbox">3</td>
+          <td><input id="yachin_3" type="text" value="100000"></td>
+          <td><input id="yachin_sonota_3" type="text" value="500000"></td>
+          <td><select id="yachin_start_3"></select>〜<select id="yachin_end_3"></select></td>
+        </tr>
+        <tr>
+          <td><input id="yachin_check_4" type="checkbox">4</td>
+          <td><input id="yachin_4" type="text" value="100000"></td>
+          <td><input id="yachin_sonota_4" type="text" value="500000"></td>
+          <td><select id="yachin_start_4"></select>〜<select id="yachin_end_4"></select></td>
+        </tr>
+      </table>
+    </div>
+    <div class="mawarikomi">
+      購入
+      <table>
+        <tr>
+          <td>購入予定</td><td><input id="mochiie_yotei" type="checkbox"></td>
+        </tr>
+        <tr>
+          <td>購入時期</td><td><select id="mochiie_ziki"></select></td>
+        </tr>
+        <tr>
+          <td>頭金</td><td><input id="mochiie_atamakin" type="text" value="10000000"></td>
+        </tr>
+        <tr>
+          <td>借入金</td><td><input id="mochiie_kariirekin" type="text" value="40000000"></td>
+        </tr>
+        <tr>
+          <td>借入期間</td><td><input id="mochiie_kariirekin_kikan" type="text" value="35"></td>
+        </tr>
+        <tr>
+          <td>ローン利率</td><td><input id="mochiie_kariirekin_ritsu" type="text" value="3"></td>
+        </tr>
+        <tr>
+          <td>維持費/固定資産税</td><td><input id="mochiie_izihi" type="text" value="150000"></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="kuruma_info">
+  </div>
+
+  <div id="sonota_info">
+  </div>
+
+</div>
+<input class="btn" type="button" id="btnCalc" value="プランを表示">
+<input class="btn" type="button" id="btnShowDetail" value="詳細切替">
+
+<table id="tblPlan" class="tblMain">
+    <tr class="dataRow" id="dataRow_head">
+      <th>西暦</th>
+      <th class="personInfo">世帯主<br>年齢</th>
+      <th>年収</th>
+      <th class="detailInfo">給与所得</th>
+      <th class="detailInfo">健康保険</th>
+      <th class="detailInfo">厚生年金</th>
+      <th class="detailInfo">雇用保険</th>
+      <th class="detailInfo">介護保険</th>
+      <th class="detailInfo">その他控除</th>
+      <th class="detailInfo">確定拠出年金</th>
+      <th class="detailInfo">所得税扶養控除</th>
+      <th class="detailInfo">所得税基礎控除</th>
+      <th class="detailInfo">所得税</th>
+      <th class="detailInfo">住民税扶養控除</th>
+      <th class="detailInfo">住民税基礎控除</th>
+      <th class="detailInfo">住民税</th>
+      <th>手取り</th>
+      <th class="personInfo">配偶者<br>年齢</th>
+      <th>年収</th>
+      <th class="detailInfo">給与所得</th>
+      <th class="detailInfo">健康保険</th>
+      <th class="detailInfo">厚生年金</th>
+      <th class="detailInfo">雇用保険</th>
+      <th class="detailInfo">介護保険</th>
+      <th class="detailInfo">その他控除</th>
+      <th class="detailInfo">確定拠出年金</th>
+      <th class="detailInfo">所得税扶養控除</th>
+      <th class="detailInfo">所得税基礎控除</th>
+      <th class="detailInfo">所得税</th>
+      <th class="detailInfo">住民税扶養控除</th>
+      <th class="detailInfo">住民税基礎控除</th>
+      <th class="detailInfo">住民税</th>
+      <th>手取り</th>
+      <th>手当</th>
+      <th>収入合計</th>
+      <th class="child1Info personInfo">子１<br>年齢</th>
+      <th class="child1Info shishutsuInfo">教育費</th>
+      <th class="child2Info personInfo">子２<br>年齢</th>
+      <th class="child2Info shishutsuInfo">教育費</th>
+      <th class="child3Info personInfo">子３<br>年齢</th>
+      <th class="child3Info shishutsuInfo">教育費</th>
+      <th class="shishutsuInfo">生活費</th>
+      <th class="shishutsuInfo">住宅関連</th>
+      <th class="shishutsuInfo">車</th>
+      <th class="shishutsuInfo">その他費用</th>
+      <th class="shishutsuInfo">支出合計</th>
+      <th class="personInfo">年間収支</th>
+      <th class="shisanInfo">貯蓄</th>
+      <th class="shisanInfo">世帯主<br>確定拠出積立</th>
+      <th class="shisanInfo">配偶者<br>確定拠出積立</th>
+    </tr>
+    <tr class="dataRow" id="dataRow_0">
+    </tr>
+</table>
+
+<div id="chart_div1"></div>
+<div style="margin-left:72px" id="chart_div2"></div>
+
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="lifePlanBaseInfo.js"></script>
+<script type="text/javascript" src="lifePlanDisplay.js"></script>
+<script type="text/javascript" src="lifePlanCalc.js"></script>
+<script type="text/javascript">
+	// Load the Visualization API.
+	google.load('visualization', '1.0', {'packages':['corechart']});
+	// Set a callback to run when the Google Visualization API is loaded.
+	google.setOnLoadCallback(drawChart);
+</script>
+</html>
